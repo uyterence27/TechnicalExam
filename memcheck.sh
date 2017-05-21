@@ -1,10 +1,6 @@
+# TERENCE JOHN TJ UY #
 
-
-
-
-####    TERENCE JOHN TJ BORDEOS UY    ######
-
-#!bin/bash
+#!/bin/bash
 
 TOTAL_MEMORY=$( free | grep Mem: | awk '{print $2}' )
 USED_MEMORY=$( free | grep Mem: | awk '{print $3}' )
@@ -27,7 +23,7 @@ done
 if [ $# -lt 3]
 then
 	clear;
-	echo -e  "Incomplete Parameters! Enter values for Critical (-c) and Warning (-w) Thresholds and Email Address (-e). Example: ./memory_check -c 90 -w 80 -e test@domain.com\n\n"
+	echo -e  "Incomplete Parameters! Enter values for Critical (-c) and Warning (-w) Thresholds and Email Address (-e). Example: ./memcheck.sh -c 90 -w 80 -e host@domain.com\n\n"
 elif [ $critical -lt $warning ]
 then
 	clear;
@@ -46,16 +42,15 @@ else
 	if [[ $USED_MEMORY -ge $CRITICAL_THRESHOLD ]]
 	then
 		echo "$topProcesses" | mail -s "$TIME memory check - critical" $email
+		echo "MEMORY USAGE STATUS: CRITICAL"
 		exit 2
 	elif [[ $USED_MEMORY -ge $WARNING_THRESHOLD ]]
 	then
+		echo "MEMORY USAGE STATUS: WARNING"
 		exit 1
 	elif [[ $USED_MEMORY -lt $WARNING_THRESHOLD ]]
 	then
+		echo "MEMORY USAGE STATUS: NORMAL"
 		exit 0
 	fi
 fi
-
-
-
-
